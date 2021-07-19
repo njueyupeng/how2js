@@ -1,4 +1,4 @@
-name: 自动化部署Docusaurus博客
+name: 自动化部署博客
 on:
   push:
     branches:
