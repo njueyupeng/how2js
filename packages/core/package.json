@@ -1,0 +1,27 @@
+{
+  "name": "gatsby-theme-core",
+  "description": "Powers the GraphQL interface creation and sourcing of data",
+  "private": true,
+  "version": "0.0.1",
+  "license": "GPLv3",
+  "peerDependencies": {
+    "gatsby": "^3.0.0"
+  },
+  "dependencies": {
+    "@mdx-js/mdx": "^1.6.22",
+    "@mdx-js/react": "^1.6.22",
+    "gatsby-plugin-catch-links": "next",
+    "gatsby-plugin-mdx": "next",
+    "gatsby-plugin-sharp": "next",
+    "gatsby-remark-images": "next",
+    "gatsby-source-filesystem": "next",
+    "gatsby-source-graphql": "next",
+    "gatsby-transformer-sharp": "next",
+    "gatsby-transformer-yaml": "next",
+    "lodash.get": "^4.4.2",
+    "lodash.camelcase": "^4.3.0",
+    "prando": "^6.0.1",
+    "remark-slug": "^6.0.0",
+    "remark-smartypants": "^0.0.1"
+  }
+}
