@@ -1,164 +1,115 @@
-//const webpack = require("webpack");
-const _ = require('lodash')
-const path = require('path')
-const Promise = require('bluebird')
-
+const path = require(`path`)
 const { createFilePath } = require(`gatsby-source-filesystem`)
 
-exports.onCreateNode = ({ node, getNode, actions }) => {
-  const { createNodeField } = actions
-  if (node.internal.type === `Mdx`) {
-    const slug = createFilePath({ node, getNode })
-    const fileNode = getNode(node.parent)
-    const source = fileNode.sourceInstanceName
-    const separtorIndex = ~slug.indexOf('--') ? slug.indexOf('--') : 0
-    const shortSlugStart = separtorIndex ? separtorIndex + 2 : 0
+exports.createPages = async ({ graphql, actions, reporter }) => {
+  const { createPage } = actions
 
-    if (source !== 'parts') {
-      createNodeField({
-        node,
-        name: `slug`,
-        value: `${separtorIndex ? '/' : ''}${slug.substring(shortSlugStart)}`,
+  // Define a template for blog post
+  const blogPost = path.resolve(`./src/templates/blog-post.js`)
+
+  // Get all markdown blog posts sorted by date
+  const result = await graphql(
+    `
+      {
+        allMarkdownRemark(
+          sort: { fields: [frontmatter___date], order: ASC }
+          limit: 1000
+        ) {
+          nodes {
+            id
+            fields {
+              slug
+            }
+          }
+        }
+      }
+    `
+  )
+
+  if (result.errors) {
+    reporter.panicOnBuild(
+      `There was an error loading your blog posts`,
+      result.errors
+    )
+    return
+  }
+
+  const posts = result.data.allMarkdownRemark.nodes
+
+  // Create blog posts pages
+  // But only if there's at least one markdown file found at "content/blog" (defined in gatsby-config.js)
+  // `context` is available in the template as a prop and as a variable in GraphQL
+
+  if (posts.length > 0) {
+    posts.forEach((post, index) => {
+      const previousPostId = index === 0 ? null : posts[index - 1].id
+      const nextPostId = index === posts.length - 1 ? null : posts[index + 1].id
+
+      createPage({
+        path: post.fields.slug,
+        component: blogPost,
+        context: {
+          id: post.id,
+          previousPostId,
+          nextPostId,
+        },
       })
-    }
-    createNodeField({
-      node,
-      name: `prefix`,
-      value: separtorIndex ? slug.substring(6, separtorIndex) : '',
-    })
-    createNodeField({
-      node,
-      name: `source`,
-      value: source,
     })
   }
 }
 
-exports.createPages = ({ graphql, actions }) => {
-  const { createPage } = actions
+exports.onCreateNode = ({ node, actions, getNode }) => {
+  const { createNodeField } = actions
 
-  return new Promise((resolve, reject) => {
-    const postTemplate = path.resolve('./src/templates/PostTemplate.js')
-    const pageTemplate = path.resolve('./src/templates/PageTemplate.js')
-    const tagTemplate = path.resolve('./src/templates/TagTemplate.js')
+  if (node.internal.type === `MarkdownRemark`) {
+    const value = createFilePath({ node, getNode })
 
-    resolve(
-      graphql(
-        `
-          {
-            allMdx(
-              filter: { fields: { slug: { ne: null } }, frontmatter: { published: { eq: true } } }
-              sort: { fields: [fields___prefix], order: DESC }
-              limit: 1000
-            ) {
-              edges {
-                node {
-                  id
-                  fields {
-                    slug
-                    prefix
-                    source
-                  }
-                  frontmatter {
-                    title
-                    tags
-                  }
-                }
-              }
-            }
-          }
-        `
-      ).then((result) => {
-        if (result.errors) {
-          console.log(result.errors)
-          reject(result.errors)
-        }
+    createNodeField({
+      name: `slug`,
+      node,
+      value,
+    })
+  }
+}
 
-        const items = result.data.allMdx.edges
+exports.createSchemaCustomization = ({ actions }) => {
+  const { createTypes } = actions
 
-        // Create tag list
-        const tagSet = new Set()
-        items.forEach((edge) => {
-          const {
-            node: {
-              frontmatter: { tags },
-            },
-          } = edge
+  // Explicitly define the siteMetadata {} object
+  // This way those will always be defined even if removed from gatsby-config.js
 
-          if (tags && tags != null) {
-            tags.forEach((tag) => {
-              if (tag && tag !== null) {
-                tagSet.add(tag)
-              }
-            })
-          }
-        })
+  // Also explicitly define the Markdown frontmatter
+  // This way the "MarkdownRemark" queries will return `null` even when no
+  // blog posts are stored inside "content/blog" instead of returning an error
+  createTypes(`
+    type SiteSiteMetadata {
+      author: Author
+      siteUrl: String
+      social: Social
+    }
 
-        // Create tag pages
-        const tagList = Array.from(tagSet)
-        tagList.forEach((tag) => {
-          createPage({
-            path: `/tag/${_.kebabCase(tag)}/`,
-            component: tagTemplate,
-            context: {
-              tag,
-            },
-          })
-        })
+    type Author {
+      name: String
+      summary: String
+    }
 
-        // Create posts
-        const posts = items.filter((item) => item.node.fields.source === 'posts')
-        posts.forEach(({ node }, index) => {
-          const slug = node.fields.slug
-          const next = index === 0 ? undefined : posts[index - 1].node
-          const prev = index === posts.length - 1 ? undefined : posts[index + 1].node
-          const source = node.fields.source
+    type Social {
+      twitter: String
+    }
 
-          createPage({
-            path: slug,
-            component: postTemplate,
-            context: {
-              slug,
-              prev,
-              next,
-              source,
-            },
-          })
-        })
+    type MarkdownRemark implements Node {
+      frontmatter: Frontmatter
+      fields: Fields
+    }
 
-        // and pages.
-        const pages = items.filter((item) => item.node.fields.source === 'pages')
-        pages.forEach(({ node }) => {
-          const slug = node.fields.slug
-          const source = node.fields.source
+    type Frontmatter {
+      title: String
+      description: String
+      date: Date @dateformat
+    }
 
-          createPage({
-            path: slug,
-            component: pageTemplate,
-            context: {
-              slug,
-              source,
-            },
-          })
-        })
-
-        // Create blog post list pages
-        const postsPerPage = 5
-        const numPages = Math.ceil(posts.length / postsPerPage)
-
-        _.times(numPages, (i) => {
-          createPage({
-            path: i === 0 ? `/` : `/${i + 1}`,
-            component: path.resolve('./src/templates/index.js'),
-            context: {
-              limit: postsPerPage,
-              skip: i * postsPerPage,
-              numPages,
-              currentPage: i + 1,
-            },
-          })
-        })
-      })
-    )
-  })
+    type Fields {
+      slug: String
+    }
+  `)
 }

@@ -1,11 +1,11 @@
 module.exports = {
   siteMetadata: {
-    title: `于鹏的博客`,
+    title: `于鹏`,
     author: {
       name: `于鹏`,
-      summary: `一个前端程序员`,
+      summary: `一个前端工程师`,
     },
-    description: `于鹏的博客`,
+    description: `A starter blog demonstrating what Gatsby can do.`,
     siteUrl: `https://gatsbystarterblogsource.gatsbyjs.io/`,
     social: {
       twitter: `kylemathews`,

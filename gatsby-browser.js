@@ -1,11 +1,10 @@
-// Prism themes
+// custom typefaces
+import "typeface-montserrat"
+import "typeface-merriweather"
+// normalize CSS across browsers
+import "./src/normalize.css"
+// custom CSS styles
+import "./src/style.css"
 
-require('prismjs/plugins/command-line/prism-command-line.css')
-//require("prismjs/themes/prism.css")
-require('prismjs/themes/prism-okaidia.css')
-//require("prismjs/themes/prism-tomorrow.css")
-//require("prismjs/themes/prism-solarizedlight.css")
-//require("prismjs/themes/prism-coy.css")
-//require("prismjs/themes/prism-dark.css")
-//require("prismjs/themes/prism-twilight.css")
-//require("prismjs/themes/prism-funky.css")
+// Highlighting for code blocks
+import "prismjs/themes/prism.css"
