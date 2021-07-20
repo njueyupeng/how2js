@@ -9,6 +9,7 @@ type Props = {
       siteDescription: string
       siteImage: string
       twitter: string
+      avatar:string
     }
   }
 }
@@ -23,7 +24,8 @@ export const useSiteMetadata = () => {
           siteUrl
           siteDescription
           siteImage
-          twitter
+          twitter,
+          avatar
         }
       }
     }

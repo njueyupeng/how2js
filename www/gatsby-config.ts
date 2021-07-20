@@ -18,6 +18,7 @@ const gatsbyConfig: GatsbyConfig = {
     siteDescription: site.description,
     siteImage: site.image,
     twitter: site.twitter,
+    avatar: site.avatar,
   },
   plugins: [
     `gatsby-theme-core`,
@@ -109,7 +110,8 @@ const gatsbyConfig: GatsbyConfig = {
         }
         `,
         resolveSiteUrl: () => site.url,
-        resolvePages: ({ posts, garden, other }) => [].concat(posts.nodes, garden.nodes, other.nodes),
+        resolvePages: ({ posts, garden, other }) =>
+          [].concat(posts.nodes, garden.nodes, other.nodes),
         serialize: ({ path, lastmod }) => ({
           url: path,
           lastmod,
@@ -146,7 +148,7 @@ const gatsbyConfig: GatsbyConfig = {
             }
             `,
             serialize: ({ query: { site: s, allPost } }) =>
-              allPost.nodes.map((node) => {
+              allPost.nodes.map(node => {
                 const url = `${s.siteMetadata.siteUrl}${node.slug}`
                 const content = `<p>${node.description}</p><div style="margin-top: 50px; font-style: italic;"><strong><a href="${url}">Keep reading</a>.</strong></div><br /> <br />`
 
