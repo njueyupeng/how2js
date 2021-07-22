@@ -8,7 +8,7 @@ import { Button, usePrefersReducedMotion } from "@chakra-ui/react"
 /**
  * Primary buttons for important CTA
  */
-const PrimaryButton: React.FC<{ to: string; isExternal?: boolean }> = ({ children, to, isExternal = false }) => {
+const PrimaryButton: React.FC<{ to: string; isExternal?: boolean ,newPage?: boolean}> = ({ children, to, isExternal = false,newPage=false }) => {
   const prefersReducedMotion = usePrefersReducedMotion()
 
   return (
@@ -19,6 +19,7 @@ const PrimaryButton: React.FC<{ to: string; isExternal?: boolean }> = ({ childre
       href={isExternal ? to : undefined}
       variant="primary"
       rightIcon={<BsArrowRight />}
+      target={newPage ? '_blank':''}
       sx={{
         span: {
           transform: `translate3d(0px, 0px, 0px)`,

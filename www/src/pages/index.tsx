@@ -29,6 +29,7 @@ import { PrimaryButton, SubtleButton } from "../components/buttons"
 import { space } from "../constants/space"
 import { SEO } from "../components/seo"
 import { homepage } from "../constants/json-ld"
+import { Button } from "@chakra-ui/react"
 
 type RepositoryInfo = {
   stargazerCount: number
@@ -86,12 +87,6 @@ const Index: React.FC<PageProps<DataProps>> = ({ data }) => {
   const [firstPost, ...rest] = data.posts.nodes
   const otherPosts = [...rest]
   return (
-    <Alert status="info" title="Note">
-      网站近期在升级改造和数据迁移，会出现异常情况,欢迎过段时间再来浏览——于鹏
-      2021年7月20日
-    </Alert>
-  )
-  return (
     <Layout>
       <SEO>
         <script type="application/ld+json">{JSON.stringify(homepage)}</script>
@@ -99,16 +94,21 @@ const Index: React.FC<PageProps<DataProps>> = ({ data }) => {
       <SkipNavContent>
         <FullWidthContainer variant="hero">
           <Stack align="center" spacing="5" py={space.paddingLarge}>
-            <Heading as="h1">Hi, I’m Lennart!</Heading>
+            <Heading as="h1">Hi, I’m YuPeng!</Heading>
             <Text variant="prominent" maxWidth="45ch" textAlign="center">
-              <strong>Software Engineer</strong> from Darmstadt, Germany. <br />
-              I’m passionate about working on open source products & building
-              thriving communities around them.
+              目前就职于一家在线教育软件公司，作为一名
+              <strong>高级前端工程师</strong>{" "}
+              ，我目前致力于研发一款线上线下融合的
+              线上互动教学软件。力求打造极致的在线互动直播体验。
             </Text>
             <Text variant="prominent" maxWidth="40ch" textAlign="center">
-              I’m currently working remotely at{" "}
-              <ChakraLink href="https://www.gatsbyjs.com">Gatsby</ChakraLink> on
-              the open source project.
+              <PrimaryButton
+                to={"https://www.plaso.cn/?page_id=2484&kid=120"}
+                newPage={true}
+                isExternal={true}
+              >
+                查看产品介绍
+              </PrimaryButton>
             </Text>
           </Stack>
         </FullWidthContainer>
