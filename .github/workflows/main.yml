@@ -24,7 +24,7 @@ jobs:
          # build之后部署到阿里云服务器
          npm install yarn -g
          yarn install
-         yarn build --if-present
+         yarn build 
         
       - name: FTP Deploy
         uses: SamKirkland/FTP-Deploy-Action@4.0.0
