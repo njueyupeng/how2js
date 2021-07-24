@@ -81,7 +81,7 @@ async function run() {
   }
 
   const slug = slugify(`${res.title}`)
-  const filename = `${process.cwd()}/www/content/writing/${res.date}--${slug}/index.mdx`
+  const filename = `${process.cwd()}/content/writing/${res.date}--${slug}/index.mdx`
 
   const frontmatter = `---
 title: "${res.title}"
