@@ -1,5 +1,5 @@
 export const site = {
-  title: `于鹏`,
+  title: `于鹏的博客`,
   titleDefault: `于鹏 - 前端程序员`,
   url: `http://how2js.cn`, // Without a trailing slash!
   dataDomain: `how2js.cn`,
