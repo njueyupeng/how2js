@@ -7611,6 +7611,13 @@ gatsby-page-utils@^1.11.0-next.0:
     lodash "^4.17.21"
     micromatch "^4.0.2"
 
+gatsby-plugin-baidu-tongji@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.npmjs.org/gatsby-plugin-baidu-tongji/-/gatsby-plugin-baidu-tongji-2.0.0.tgz#b718349fa929d9e218b91a2830e8d228ea30cb81"
+  integrity sha512-GtUsCdBXmq8XL/+uonaf7CA/3aKfrAHWOk2mW3sJZA9qKFPTl8uzAIXcUOMDMd2/wVhnvIeOxlgLuKEIxQ9+sQ==
+  dependencies:
+    "@babel/runtime" "^7.0.0"
+
 gatsby-plugin-catch-links@next:
   version "3.11.0-next.0"
   resolved "https://registry.npmjs.org/gatsby-plugin-catch-links/-/gatsby-plugin-catch-links-3.11.0-next.0.tgz#994c6a5d63ada8fd4c76dd468e244cc242ce0e07"

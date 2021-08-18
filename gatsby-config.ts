@@ -181,6 +181,15 @@ const gatsbyConfig: GatsbyConfig = {
       resolve: `gatsby-plugin-webpack-bundle-analyser-v2`,
       options: {},
     },
+    {
+        resolve: `gatsby-plugin-baidu-tongji`,
+        options: {
+        // 百度统计站点ID
+          siteid: "ff8165db1cb3534d15f8b0f5b129381c",
+          // 配置统计脚本插入位置，默认值为 false, 表示插入到 body 中, 为 true 时插入脚本到 head 中
+          head: true,
+        },
+      },
   ].filter(Boolean),
 }
 
