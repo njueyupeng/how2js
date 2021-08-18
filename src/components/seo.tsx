@@ -2,6 +2,7 @@ import * as React from "react"
 import { Helmet } from "react-helmet"
 import { useLocation } from "@reach/router"
 import { breadcrumbList, BreadcrumbListItem } from "../constants/json-ld"
+import { site } from "../constants/meta"
 import { useSiteMetadata } from "../hooks/use-site-metadata"
 
 type SEOProps = {
@@ -14,11 +15,12 @@ type SEOProps = {
 }
 
 /* istanbul ignore next */
-const faviconSrc =
-  process.env.NODE_ENV === `production`
-    ? `/favicon.svg`
-    : `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🔥</text></svg>`
+// const faviconSrc =
+//   process.env.NODE_ENV === `production`
+//     ? `/favicon.svg`
+//     : `data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='0.9em' font-size='90'>🔥</text></svg>`
 
+const faviconSrc = site.avatar
 export const SEO: React.FC<SEOProps> = ({
   title,
   description,

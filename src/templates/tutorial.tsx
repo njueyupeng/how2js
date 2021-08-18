@@ -7,8 +7,6 @@ import { Spacer } from "../components/blocks/spacer"
 
 const tagColorSwitch = (name) => {
   switch (name) {
-    case `Community`:
-      return `green`
     case `Design`:
       return `blue`
     case `Gatsby`:
@@ -17,6 +15,8 @@ const tagColorSwitch = (name) => {
       return `yellow`
     case `React`:
       return `teal`
+    case `Program`:
+        return `green`
     default:
       return `gray`
   }

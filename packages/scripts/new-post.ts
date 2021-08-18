@@ -9,7 +9,7 @@ import fs from "fs-extra"
 const currentDate = new Date().toISOString().split(`T`)[0]
 const typeChoices = [`prose`, `tutorial`] as const
 type Types = typeof typeChoices[number]
-const categoryChoices = [`Community`, `Design`, `Gatsby`, `JavaScript`, `React`] as const
+const categoryChoices = [ `Design`, `Gatsby`, `JavaScript`, `React`,`Program`] as const
 type Categories = typeof categoryChoices[number]
 
 async function run() {
